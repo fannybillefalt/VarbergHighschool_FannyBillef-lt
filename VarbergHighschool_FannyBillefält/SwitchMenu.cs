@@ -18,27 +18,27 @@ namespace VarbergHighschool_FannyBillefält
                 UI.PrintedWelcomeMenu();
                 string? input = Console.ReadLine();
                 Console.Clear();
-                
+
+                DbManager dbManager = new DbManager();
+
                 switch (input)
                 {
                     case "1":
-                        Console.WriteLine("1. Information om personalen");
-                        //Här ska dbmanager metod ligga för val 1 i printedWelcomeMenu.
+                        StaffMenu();
                         break;
                     case "2":
-                        Console.WriteLine("2. Information om elever");
-                        //Här ska dbmanager metod ligga för val 2 i printedWelcomeMenu.
+                        StudentMenu();
                         break;
                     case "3":
-                        Console.WriteLine("3. Ekonomi");
-                        //Här ska dbmanager metod ligga för val 3 i printedWelcomeMenu.
+                        EconomyMenu();
                         break;
                     case "4":
-                        Console.WriteLine("4. Kurser");
-                        //Här ska dbmanager metod ligga för val 4 i printedWelcomeMenu.
+                        dbManager.AllCourses();
+                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
                     case "5":
-                        Console.WriteLine("5. Avsluta");
                         Console.WriteLine("Hej då! Tack för denna gången.");
                         keepRunning = false;
                         break;
@@ -46,6 +46,7 @@ namespace VarbergHighschool_FannyBillefält
                         Console.WriteLine("Ogiltigt val, försök igen.");
                         Console.WriteLine("\nTryck Enter för att fortsätta...");
                         Console.ReadLine();
+                        Console.Clear();
                         break;
                 }
 
@@ -53,7 +54,7 @@ namespace VarbergHighschool_FannyBillefält
             }
         }
 
-        internal void StaffMenu()//gör alla menyer som denna.
+        internal void StaffMenu()
         {
             bool keepRunning = true;
 
@@ -61,11 +62,16 @@ namespace VarbergHighschool_FannyBillefält
             {
                 UI.Printed_StaffMenu();
                 string? input = Console.ReadLine();
+                Console.Clear();
+
+                DbManager dbManager = new DbManager();
 
                 switch (input)
                 {
                     case "1":
-                        Console.WriteLine("1. Antal lärare per avdelning");
+                        dbManager.TeachersPerDepartment();
+                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
+                        Console.ReadLine();
                         break;
                     case "2":
                         Console.WriteLine("2. Översikt all personal");
@@ -75,12 +81,11 @@ namespace VarbergHighschool_FannyBillefält
                         UI.Printed_AddNewStaff();//Ska ev bort om den ej ska användas. Behöver ju spara med readline, kanske bättre att lägga den som en stöd metod under alla switchmenyer.
                         break;
                     case "4":
-                        Console.WriteLine("Tillbaka till huvudmenyn.");//Ska denna ligga här?
                         keepRunning = false;
                         break;
                     default:
                         Console.WriteLine("Ogiltigt val, försök igen.");
-                        Console.WriteLine("\nTryck Enter för att fortsätta...");
+                        Console.WriteLine("\nTryck Enter för att fortsätta...");//vill att detta ska försvinna efter jag tryckt enter.
                         Console.ReadLine();
                         break;
                 }
@@ -93,21 +98,23 @@ namespace VarbergHighschool_FannyBillefält
           
             while (keepRunning)
             {
-                //här ska nog vara en using...ELLER?
                 UI.Printed_StudentMenu();
                 string? input = Console.ReadLine();
-                //Console.Clear();
+                Console.Clear();
+
+                DbManager dbManager = new DbManager();
 
                 switch (input)
                 {
                     case "1":
-                        Console.WriteLine("1. Översikt elever");
+                        dbManager.GetInformationAllStudents();
+                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
+                        Console.ReadLine();
                         break;
                     case "2":
-                        Console.WriteLine("2. Översikt betyg");
+                        
                         break;
                     case "3":
-                        Console.WriteLine("Tillbaka till huvudmenyn.");//Ska denna ligga här?
                         keepRunning = false;
                         break;
                     default:
