@@ -8,5 +8,6 @@ namespace VarbergHighschool_FannyBillefält
 {
     internal class DbManager
     {
+
     }
 }

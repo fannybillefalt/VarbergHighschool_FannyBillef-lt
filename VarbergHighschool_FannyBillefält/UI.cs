@@ -36,13 +36,13 @@ namespace VarbergHighschool_FannyBillefält
             Console.Write("Ditt val: ");
         }
 
-        internal static void EconomyMenu()
+        internal static void Printed_EconomyMenu()
         {
             Console.WriteLine("Medellön");
             Console.WriteLine("Lön per avdelning");
         }
 
-        internal static void PrintedAddNewStaff()
+        internal static void Printed_AddNewStaff()
         {
             Console.WriteLine("Fyll i alla information om den nya personalen: ");
             Console.WriteLine("Förnamn: ");
