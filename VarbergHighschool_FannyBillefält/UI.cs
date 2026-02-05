@@ -26,6 +26,7 @@ namespace VarbergHighschool_FannyBillefält
             Console.WriteLine("1. Antal lärare per avdelning");
             Console.WriteLine("2. Översikt all personal");
             Console.WriteLine("3. Addera ny personal");
+            Console.WriteLine("4. Återgå till huvudmenyn");
             Console.Write("Ditt val: ");
         }
 
@@ -33,16 +34,17 @@ namespace VarbergHighschool_FannyBillefält
         {
             Console.WriteLine("1. Översikt elever");
             Console.WriteLine("2. Översikt betyg");
+            Console.WriteLine("3. Återgå till huvudmenyn");
             Console.Write("Ditt val: ");
         }
 
-        internal static void EconomyMenu()
+        internal static void Printed_EconomyMenu()
         {
             Console.WriteLine("Medellön");
             Console.WriteLine("Lön per avdelning");
         }
 
-        internal static void PrintedAddNewStaff()
+        internal static void Printed_AddNewStaff()
         {
             Console.WriteLine("Fyll i alla information om den nya personalen: ");
             Console.WriteLine("Förnamn: ");
