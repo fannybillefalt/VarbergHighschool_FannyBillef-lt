@@ -74,10 +74,11 @@ namespace VarbergHighschool_FannyBillefält
                         Console.ReadLine();
                         break;
                     case "2":
-                        Console.WriteLine("2. Översikt all personal");
+                        DbManager.OverviewAllStaff();
+                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
+                        Console.ReadLine();
                         break;
                     case "3":
-                        Console.WriteLine("3. Addera ny personal");
                         UI.Printed_AddNewStaff();//Ska ev bort om den ej ska användas. Behöver ju spara med readline, kanske bättre att lägga den som en stöd metod under alla switchmenyer.
                         break;
                     case "4":

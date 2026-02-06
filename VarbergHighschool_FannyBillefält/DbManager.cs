@@ -1,18 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VarbergHighschool_FannyBillefält.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace VarbergHighschool_FannyBillefält
 {
     internal class DbManager
     {
         private static readonly string _connectionString = @"Server = localhost; Database = VarbergHighschool;Integrated Security=true;Trust Server Certificate = true;";
-        
-        //Hur många lärare jobbar på de olika avdelningarna? (EF)
+
+        //Hur många lärare jobbar på de olika avdelningarna?
         internal void TeachersPerDepartment()
         {
             using (var context = new VarbergHighschoolContext())
@@ -38,7 +40,6 @@ namespace VarbergHighschool_FannyBillefält
         }
 
         //Visa information om alla elever(t.ex namn, klass och annat som är intressant/relevant i din databas) (EF)
-
         internal void GetInformationAllStudents()
         {
             using (var context = new VarbergHighschoolContext())
@@ -101,7 +102,97 @@ namespace VarbergHighschool_FannyBillefält
 
         //Skolan vill kunna ta fram en översikt över all personal där det framgår namn
         //och vilka befattningar de har samt hur många år dehar arbetat på skolan.
+        internal static void OverviewAllStaff()
+        {
+            string query = "EXEC OverviewAllStaff";
+            ADO_Select(query);
+        }
 
+        internal static void AddStaff(string firstname, string lastname,
+                                        int socialSecurityNumber, string email,
+                                        DateTime employmentDate, int salary,
+                                        int positionId, int departmentId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Firstname", firstname),
+                new SqlParameter("@Lastname", lastname),
+                new SqlParameter("@SocialSecurityNumber", socialSecurityNumber),
+                new SqlParameter("@Email", email),
+                new SqlParameter("@EmploymentDate", employmentDate),
+                new SqlParameter("@Salary", salary),
+                new SqlParameter("@PositionId", positionId),
+                new SqlParameter("@DepartmentId", departmentId)
+            };
 
+            ADO_NonQuery("AddNewStaff", parameters);
+        }
+
+        public static void ADO_NonQuery(string query, List<SqlParameter> parameters)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    if (parameters != null)
+                    {
+                        foreach (var param in parameters)
+                        {
+                            
+                            command.Parameters.Add(param);
+                            
+                        }
+                    }
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+
+        public static void ADO_Select(string query)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var command = new SqlCommand(query, connection);
+
+                ADO_Reader(command);
+                connection.Close();
+            }
+        }
+
+                    
+        public static void ADO_Reader(SqlCommand command)
+        {
+            try
+            {
+
+                using (var reader = command.ExecuteReader())
+                {   //SKRIVER UT KOLUMNER
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        Console.Write($"{reader.GetName(i),-20}");
+                    }
+
+                    Console.WriteLine();
+
+                    while (reader.Read())
+                    {   //SKRIVER UT VALUE
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            Console.Write($"{reader.GetValue(i),-20}");
+                        }
+
+                        Console.WriteLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
