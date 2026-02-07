@@ -23,6 +23,9 @@ namespace VarbergHighschool_FannyBillefält
 
         internal static void Printed_StaffMenu()
         {
+            Console.WriteLine("Personal vyn");
+            Console.WriteLine("__________________________________");
+            Console.WriteLine();
             Console.WriteLine("1. Antal lärare per avdelning");
             Console.WriteLine("2. Översikt all personal");
             Console.WriteLine("3. Addera ny personal");
@@ -32,28 +35,32 @@ namespace VarbergHighschool_FannyBillefält
 
         internal static void Printed_StudentMenu()
         {
-            Console.WriteLine("1. Översikt elever");
-            Console.WriteLine("2. Översikt betyg");
-            Console.WriteLine("3. Återgå till huvudmenyn");
+            Console.WriteLine("Elev vyn");
+            Console.WriteLine("__________________________________");
+            Console.WriteLine();
+            Console.WriteLine("1. Översikt alla elever");
+            Console.WriteLine("2. Information om enskild elev");
+            Console.WriteLine("3. Översikt betyg");
+            Console.WriteLine("4. Återgå till huvudmenyn");
             Console.Write("Ditt val: ");
         }
 
         internal static void Printed_EconomyMenu()
         {
-            Console.WriteLine("Medellön");
-            Console.WriteLine("Lön per avdelning");
+            Console.WriteLine("Ekonomi vyn");
+            Console.WriteLine("__________________________________");
+            Console.WriteLine();
+            Console.WriteLine("1. Lön per avdelning");
+            Console.WriteLine("2. Medellön");
+            Console.WriteLine("3. Återgå till huvudmenyn");
+            Console.WriteLine("Ditt val: ");
         }
 
-        internal static void Printed_AddNewStaff()
+        internal static void ReturnToPreviousMenu()
         {
-            Console.WriteLine("Fyll i alla information om den nya personalen: ");
-            Console.WriteLine("Förnamn: ");
-            Console.WriteLine("Efternamn: ");
-            Console.WriteLine("Personnummer: ");
-            Console.WriteLine("Mejladress: ");
-            Console.WriteLine("Anställningsdatum: ");
-            Console.WriteLine("Lön: ");
-
+            Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
+            Console.ReadLine();
+            Console.Clear();
         }
 
     }

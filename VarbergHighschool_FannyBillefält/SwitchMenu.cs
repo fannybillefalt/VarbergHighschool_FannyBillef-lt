@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VarbergHighschool_FannyBillefält.Models;
 
 namespace VarbergHighschool_FannyBillefält
 {
@@ -34,9 +35,7 @@ namespace VarbergHighschool_FannyBillefält
                         break;
                     case "4":
                         dbManager.AllCourses();
-                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
-                        Console.ReadLine();
-                        Console.Clear();
+                        UI.ReturnToPreviousMenu();
                         break;
                     case "5":
                         Console.WriteLine("Hej då! Tack för denna gången.");
@@ -70,16 +69,15 @@ namespace VarbergHighschool_FannyBillefält
                 {
                     case "1":
                         dbManager.TeachersPerDepartment();
-                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
-                        Console.ReadLine();
+                        UI.ReturnToPreviousMenu();
                         break;
                     case "2":
                         DbManager.OverviewAllStaff();
-                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
-                        Console.ReadLine();
+                        UI.ReturnToPreviousMenu();
                         break;
                     case "3":
-                        UI.Printed_AddNewStaff();//Ska ev bort om den ej ska användas. Behöver ju spara med readline, kanske bättre att lägga den som en stöd metod under alla switchmenyer.
+                        SaveInfoAddStaff();
+                        UI.ReturnToPreviousMenu();
                         break;
                     case "4":
                         keepRunning = false;
@@ -109,11 +107,47 @@ namespace VarbergHighschool_FannyBillefält
                 {
                     case "1":
                         dbManager.GetInformationAllStudents();
-                        Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
-                        Console.ReadLine();
+                        UI.ReturnToPreviousMenu();
                         break;
                     case "2":
-                        
+                        GetIdForStudent();
+                        UI.ReturnToPreviousMenu();
+                        break;
+                    case "3":
+                        GetIdForGrades();
+                        UI.ReturnToPreviousMenu();
+                        break;
+                    case "4":
+                        keepRunning = false;
+                        break;
+                    default:
+                        Console.WriteLine("Ogiltigt val, försök igen.");
+                        Console.WriteLine("\nTryck Enter för att fortsätta...");
+                        Console.ReadLine();
+                        break;
+                }
+            }
+        }
+
+        internal void EconomyMenu()
+        {
+            bool keepRunning = true;
+        
+            while (keepRunning)
+            {
+                UI.Printed_EconomyMenu();
+                string? input = Console.ReadLine();
+                Console.Clear();
+
+                switch (input)
+                {
+                    case "1":
+                        DbManager.SalaryEveryMonth();
+                        UI.ReturnToPreviousMenu();
+                        break;
+                    case "2":
+                        DbManager.AverageSalary();
+                        UI.ReturnToPreviousMenu();
                         break;
                     case "3":
                         keepRunning = false;
@@ -130,41 +164,94 @@ namespace VarbergHighschool_FannyBillefält
             }
         }
 
-        internal void EconomyMenu()
-        {
-            bool keepRunning = true;
-        
+        internal void SaveInfoAddStaff()
+        {//just nu kan alla departments väljas och efter det bör bara den positionen kopplad till den avdelning komma upp för att inte kunna blanda avdelning och position fritt, som man just nu kan.
 
-            while (keepRunning)
+            DbManager.AllDepartments();
+            Console.WriteLine();
+            Console.Write("Vilken avdelning ska personalen läggas in i? Ange ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int departmentId))
             {
-                UI.Printed_EconomyMenu();
-                string? input = Console.ReadLine();
-
-
-                //här ska nog vara en using...ELLER?
-
-                switch (input)
-                {
-                    case "1":
-                        Console.WriteLine("1. Översikt elever");
-                        break;
-                    case "2":
-                        Console.WriteLine("2. Översikt betyg");
-                        break;
-                    case "3":
-                        Console.WriteLine("Tillbaka till huvudmenyn.");//Ska denna ligga här?
-                        keepRunning = false;
-                        break;
-                    default:
-                        Console.WriteLine("Ogiltigt val, försök igen.");
-                        Console.WriteLine("\nTryck Enter för att fortsätta...");
-                        Console.ReadLine();
-                        break;
-
-                }
-
-
+                Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
             }
+
+            Console.WriteLine();
+            DbManager.PositonsByDepartment(departmentId);
+            Console.WriteLine();
+            Console.Write("Vilken position ska personalen ha? Ange ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int positionsId))
+            {
+                Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            Console.Write("Ange förnamn: ");
+            string firstname = Console.ReadLine();
+
+            Console.Write("Ange efternamn: ");
+            string lastname = Console.ReadLine();
+
+            Console.Write("Ange personnummer (ÅÅÅÅMMDD): ");
+            string socialSecurityNumber = Console.ReadLine();
+
+            Console.Write("Ange e-post: ");
+            string email = Console.ReadLine();
+
+            Console.Write("Ange anställningsdatum (ÅÅÅÅ-MM-DD): ");
+            string? dateInput = Console.ReadLine();
+            if(!DateTime.TryParse(dateInput, out DateTime employmentDate))
+            {
+                Console.WriteLine("Ogiltigt datum. (ÅÅÅÅ-MM-DD). Tryck Enter för att fortsätta...");
+                return;
+            }
+
+            Console.Write("Ange lön: ");
+            if (!int.TryParse(Console.ReadLine(), out int salary))
+            {
+                Console.WriteLine("Felaktig inmatning. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            DbManager.AddStaff(firstname, lastname, socialSecurityNumber, email, employmentDate, salary, positionsId, departmentId);
+            Console.WriteLine("Personalen tillagd. Du lyckades!");
+        }
+
+        internal void GetIdForGrades()
+        {
+            DbManager dbManager = new DbManager();
+
+            dbManager.GetInformationAllStudents();
+            Console.WriteLine();
+            Console.Write("Vilken elev vill du betyginformation om? Ange ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int studentId))
+            {
+                Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            DbManager.GetGradesForStudent(studentId);
+        }
+
+        internal void GetIdForStudent()
+        {
+            DbManager dbManager = new DbManager();
+
+            dbManager.GetInformationAllStudents();
+            Console.WriteLine();
+            Console.Write("Vilken elev vill du ha information om? Ange ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int studentId))
+            {
+                Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            DbManager.GetInfoAboutStudent(studentId);
         }
     }
 }
