@@ -41,7 +41,8 @@ namespace VarbergHighschool_FannyBillefält
             Console.WriteLine("1. Översikt alla elever");
             Console.WriteLine("2. Information om enskild elev");
             Console.WriteLine("3. Översikt betyg");
-            Console.WriteLine("4. Återgå till huvudmenyn");
+            Console.WriteLine("4. Sätta betyg");
+            Console.WriteLine("5. Återgå till huvudmenyn");
             Console.Write("Ditt val: ");
         }
 
@@ -59,6 +60,13 @@ namespace VarbergHighschool_FannyBillefält
         internal static void ReturnToPreviousMenu()
         {
             Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
+            Console.ReadLine();
+            Console.Clear();
+        }
+
+        internal static void ReturnToHeadMenu()
+        {
+            Console.WriteLine("Tryck Enter för att återgå till huvudmenyn...");
             Console.ReadLine();
             Console.Clear();
         }

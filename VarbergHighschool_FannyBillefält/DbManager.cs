@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using VarbergHighschool_FannyBillefält.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -54,7 +55,6 @@ namespace VarbergHighschool_FannyBillefält
                     (s, c) => new
                     {
                         c.Classname,
-                        s.Id,
                         Namn = s.Firstname + " " + s.Lastname,
                         s.SocialSecurityNumber
 
@@ -69,13 +69,13 @@ namespace VarbergHighschool_FannyBillefält
                     Console.WriteLine(new string('═', 50));
 
                     // Kolumnen
-                    Console.WriteLine($"{"ID", -2} | {"Namn",-25} | {"Personnummer",-15}");
+                    Console.WriteLine($"{"Namn",-25} | {"Personnummer",-15}");
                     Console.WriteLine(new string('─', 50));
 
                     // Eleverna
                     foreach (var student in classGroup)
                     {
-                        Console.WriteLine($"{student.Id, -2} | {student.Namn,-25} | {student.SocialSecurityNumber,-15}");
+                        Console.WriteLine($"{student.Namn,-25} | {student.SocialSecurityNumber,-15}");
                     }
                 }
             }
@@ -103,6 +103,41 @@ namespace VarbergHighschool_FannyBillefält
             }
         }
 
+        internal static void GetAllStudents()
+        {
+            string query = "EXEC GetAllStudents";
+            ADO_Execute(query);
+        }
+
+        internal static void GetAllSubjects()
+        {
+            string query = "EXEC GetAllSubjects";
+            ADO_Execute(query);
+        }
+
+        //Sätt betyg på en elev genom att använda Transactions ifall något går fel. 
+        internal static void GradeAStudent(int studentId, int subjectId, int staffId, string grade, DateTime gradeDate)
+        {
+            var parameters = new List<SqlParameter>
+    {
+                new SqlParameter("@StudentId", studentId),
+                new SqlParameter("@SubjectId", subjectId),
+                new SqlParameter("@StaffId", staffId),
+                new SqlParameter("@Grade", grade),
+                new SqlParameter("@GradeDate", gradeDate)
+    };
+            ADO_ExecuteSP("GradeAStudent", parameters);
+        }
+
+        internal static void GetStaffBySubject(int subjectId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@SubjectId", subjectId)
+            };
+
+            ADO_ExecuteSP("GetStaffBySubject", parameters);
+        }
         internal static void GetInfoAboutStudent(int studentId)
         {
             var parameter = new List<SqlParameter>

@@ -94,6 +94,7 @@ namespace VarbergHighschool_FannyBillefält
         internal void StudentMenu()
         {
             bool keepRunning = true;
+            DbManager dbManager = new DbManager();
           
             while (keepRunning)
             {
@@ -101,23 +102,29 @@ namespace VarbergHighschool_FannyBillefält
                 string? input = Console.ReadLine();
                 Console.Clear();
 
-                DbManager dbManager = new DbManager();
-
                 switch (input)
                 {
                     case "1":
                         dbManager.GetInformationAllStudents();
-                        UI.ReturnToPreviousMenu();
+                        UI.ReturnToHeadMenu();
+                        keepRunning = false;
+
                         break;
                     case "2":
                         GetIdForStudent();
-                        UI.ReturnToPreviousMenu();
+                        UI.ReturnToHeadMenu();
+                        keepRunning = false;
                         break;
                     case "3":
                         GetIdForGrades();
-                        UI.ReturnToPreviousMenu();
+                        UI.ReturnToHeadMenu();
+                        keepRunning = false;
                         break;
                     case "4":
+                        GradeStudent();
+                        UI.ReturnToPreviousMenu();
+                        break;
+                    case "5":
                         keepRunning = false;
                         break;
                     default:
@@ -157,10 +164,7 @@ namespace VarbergHighschool_FannyBillefält
                         Console.WriteLine("\nTryck Enter för att fortsätta...");
                         Console.ReadLine();
                         break;
-
                 }
-
-
             }
         }
 
@@ -222,9 +226,11 @@ namespace VarbergHighschool_FannyBillefält
 
         internal void GetIdForGrades()
         {
-            DbManager dbManager = new DbManager();
+            Console.WriteLine("VISAR ALLA ELEVER – VÄLJ ELEVID FÖR INFORMATION");
+            Console.WriteLine(new string('═', 50));
 
-            dbManager.GetInformationAllStudents();
+            DbManager.GetAllStudents();
+
             Console.WriteLine();
             Console.Write("Vilken elev vill du betyginformation om? Ange ID: ");
             if (!int.TryParse(Console.ReadLine(), out int studentId))
@@ -239,9 +245,11 @@ namespace VarbergHighschool_FannyBillefält
 
         internal void GetIdForStudent()
         {
-            DbManager dbManager = new DbManager();
+            Console.WriteLine("📘 VISAR ALLA ELEVER – VÄLJ ELEVID FÖR INFORMATION");
+            Console.WriteLine(new string('═', 55));
 
-            dbManager.GetInformationAllStudents();
+            DbManager.GetAllStudents();
+
             Console.WriteLine();
             Console.Write("Vilken elev vill du ha information om? Ange ID: ");
             if (!int.TryParse(Console.ReadLine(), out int studentId))
@@ -252,6 +260,71 @@ namespace VarbergHighschool_FannyBillefält
             }
 
             DbManager.GetInfoAboutStudent(studentId);
+        }
+
+        internal void GradeStudent()
+        {
+            Console.Clear();
+
+            DbManager dbManager = new DbManager();
+
+            // Visa och välj elev
+            DbManager.GetAllStudents();
+            Console.WriteLine();
+            Console.Write("Välj elev - Ange ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int studentId))
+            {
+                Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            Console.Clear();
+
+            DbManager.GetAllSubjects();
+            Console.WriteLine();
+            Console.Write("Välj ämne - Ange ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int subjectId))
+            {
+                Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            Console.Clear();
+
+            DbManager.GetStaffBySubject(subjectId);
+            Console.WriteLine();
+            Console.Write("Välj lärare - Ange ID: ");
+            if (!int.TryParse(Console.ReadLine(), out int staffId))
+            {
+                Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            // Ange betyg
+            Console.Write("Ange betyg (A-F): ");
+            string? grade = Console.ReadLine()?.ToUpper();
+            if (string.IsNullOrEmpty(grade) || grade.Length != 1)
+            {
+                Console.WriteLine("Ogiltigt betyg. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            // Ange datum
+            Console.Write("Ange datum (ÅÅÅÅ-MM-DD): ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime gradeDate))
+            {
+                Console.WriteLine("Ogiltigt datum. Tryck Enter för att fortsätta...");
+                Console.ReadLine();
+                return;
+            }
+
+            // Sätt betyget
+            DbManager.GradeAStudent(studentId, subjectId, staffId, grade, gradeDate);
+            Console.WriteLine("\nBetyget har satts!");
         }
     }
 }
