@@ -22,6 +22,10 @@ namespace VarbergHighschool_FannyBillefält
         {
             using (var context = new VarbergHighschoolContext())
             {
+                Console.WriteLine("ANTAL LÄRARE PER AVDELNING");
+                Console.WriteLine(new string('═', 50));
+                Console.WriteLine();
+
                 var teachersPerDepartment = context.Staff
                     .Where(s => s.Position.Position1 == "Lärare")
                     .GroupBy(s => s.Department.DepartmentName)
@@ -45,6 +49,10 @@ namespace VarbergHighschool_FannyBillefält
         //Visa information om alla elever(t.ex namn, klass och annat som är intressant/relevant i din databas) (EF)
         internal void GetInformationAllStudents()
         {
+            Console.WriteLine("ÖVERSIKT ALLA ELEVER");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             using (var context = new VarbergHighschoolContext())
             {
                 var studentsByClass = context.Students
@@ -66,17 +74,18 @@ namespace VarbergHighschool_FannyBillefält
                 foreach (var classGroup in studentsByClass)
                 {
                     Console.WriteLine($"\nKlass: {classGroup.Key}");
-                    Console.WriteLine(new string('═', 50));
+                    Console.WriteLine(new string('═', 43));
 
                     // Kolumnen
                     Console.WriteLine($"{"Namn",-25} | {"Personnummer",-15}");
-                    Console.WriteLine(new string('─', 50));
+                    Console.WriteLine(new string('─', 43));
 
                     // Eleverna
                     foreach (var student in classGroup)
                     {
                         Console.WriteLine($"{student.Namn,-25} | {student.SocialSecurityNumber,-15}");
                     }
+                    Console.WriteLine();
                 }
             }
         }
@@ -84,6 +93,10 @@ namespace VarbergHighschool_FannyBillefält
         //Visa en lista på alla aktiva kurser (EF)
         internal void AllCourses()
         {
+            Console.WriteLine("ÖVERSIKT KURSER");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             using (var context = new VarbergHighschoolContext())
             {
                 var allCourses = context.Subjects
@@ -99,18 +112,27 @@ namespace VarbergHighschool_FannyBillefält
                     {
                         Console.WriteLine($"{c.SubjectName,-35} ");
                     }
+                    Console.WriteLine();
                 }
             }
         }
 
         internal static void GetAllStudents()
         {
+            Console.WriteLine("ALLA ELEVER");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             string query = "EXEC GetAllStudents";
             ADO_Execute(query);
         }
 
         internal static void GetAllSubjects()
         {
+            Console.WriteLine("ALLA ÄMNEN");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             string query = "EXEC GetAllSubjects";
             ADO_Execute(query);
         }
@@ -118,6 +140,7 @@ namespace VarbergHighschool_FannyBillefält
         //Sätt betyg på en elev genom att använda Transactions ifall något går fel. 
         internal static void GradeAStudent(int studentId, int subjectId, int staffId, string grade, DateTime gradeDate)
         {
+            Console.Clear();
             var parameters = new List<SqlParameter>
     {
                 new SqlParameter("@StudentId", studentId),
@@ -131,6 +154,10 @@ namespace VarbergHighschool_FannyBillefält
 
         internal static void GetStaffBySubject(int subjectId)
         {
+            Console.WriteLine("LÄRARE FÖR VALT ÄMNE");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             var parameters = new List<SqlParameter>
             {
                 new SqlParameter("@SubjectId", subjectId)
@@ -140,6 +167,10 @@ namespace VarbergHighschool_FannyBillefält
         }
         internal static void GetInfoAboutStudent(int studentId)
         {
+            Console.WriteLine("INFORMATION OM ELEV");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             var parameter = new List<SqlParameter>
             {
                 new SqlParameter ("@StudentId", studentId)
@@ -149,23 +180,34 @@ namespace VarbergHighschool_FannyBillefält
         }
         internal static void SalaryEveryMonth()
         {
+            Console.WriteLine("LÖN PER AVDELNING OCH MÅNAD");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             string query = "EXEC SalaryEveryMonth";
             ADO_Execute(query);
         }
 
         internal static void AverageSalary()
         {
+            Console.WriteLine("MEDELLÖN");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             string query = "EXEC AverageSalary";
             ADO_Execute(query);
         }
 
-        //ej fullkomlig
         // Vi vill kunna ta fram alla betyg för en elev i varje kurs/ämne de läst och
         //vi vill kunna se vilken lärare som satt betygen,
         //vi vill också se vilka datum betygen satts. (SQL via ADO.Net)
-       //stilen utskriften ej färdig.
+
         internal static void GetGradesForStudent(int studentId)
         {
+            Console.WriteLine("BETYGSÖVERSIKT FÖR ELEV");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             var parameters = new List<SqlParameter>
             {
                 new SqlParameter("@StudentId", studentId)
@@ -178,12 +220,20 @@ namespace VarbergHighschool_FannyBillefält
         //och vilka befattningar de har samt hur många år dehar arbetat på skolan.
         internal static void OverviewAllStaff()
         {
+            Console.WriteLine("ÖVERSIKT ALL PERSONAL");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             string query = "EXEC OverviewAllStaff";
             ADO_Execute(query);
         }
 
         internal static void AllDepartments()
         {
+            Console.WriteLine("ALLA AVDELNINGAR");
+            Console.WriteLine(new string('═', 50));
+            Console.WriteLine();
+
             string query = "SELECT Id, DepartmentName AS Avdelning " +
                             "FROM Departments";
 
@@ -194,6 +244,10 @@ namespace VarbergHighschool_FannyBillefält
         //dock kan man lägga till personal på avdelning som ej finns, och positon som ej finns :(
         internal static void PositonsByDepartment(int departmentId)
         {
+            Console.WriteLine("TILLGÄNGLIGA POSITIONER FÖR VALD AVDELNING");
+            Console.WriteLine(new string('═', 40));
+            Console.WriteLine();
+
             string query = "SELECT Id, Position FROM Positions " +
                 "WHERE DepartmentId = @DepartmentId";
 
@@ -210,7 +264,8 @@ namespace VarbergHighschool_FannyBillefält
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine($"FELMEDDELANDE: {ex.Message}");
+                        return;
                     }
 
                     ADO_Reader(command);
@@ -238,8 +293,6 @@ namespace VarbergHighschool_FannyBillefält
             ADO_ExecuteSP("AddNewStaff", parameters);
         }
 
-
-
         public static void ADO_ExecuteSP(string query, List<SqlParameter> parameters)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -265,7 +318,7 @@ namespace VarbergHighschool_FannyBillefält
                         {
                             for (int i = 0; i < reader.FieldCount; i++)
                             {
-                                Console.Write(reader.GetName(i) + "\t");
+                                Console.Write($"{reader.GetName(i),-25}"); 
                             }
 
                             Console.WriteLine();
@@ -274,7 +327,7 @@ namespace VarbergHighschool_FannyBillefält
                             {
                                 for (int i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write($"{reader.GetValue(i)}\t");
+                                    Console.Write($"{reader.GetValue(i),-25}");
                                 }
                                 Console.WriteLine();
                             }
@@ -282,7 +335,8 @@ namespace VarbergHighschool_FannyBillefält
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine();
+                        Console.WriteLine($"FELMEDDELANDE: {ex.Message}");
                     }
                 }
                 connection.Close();
@@ -301,8 +355,7 @@ namespace VarbergHighschool_FannyBillefält
                 connection.Close();
             }
         }
-
-                    
+        
         public static void ADO_Reader(SqlCommand command)
         {
             try
@@ -311,7 +364,7 @@ namespace VarbergHighschool_FannyBillefält
                 {   //SKRIVER UT KOLUMNER
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        Console.Write($"{reader.GetName(i),-20}");
+                        Console.Write($"{reader.GetName(i),-25}");
                     }
 
                     Console.WriteLine();
@@ -320,7 +373,7 @@ namespace VarbergHighschool_FannyBillefält
                     {   //SKRIVER UT VALUE
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            Console.Write($"{reader.GetValue(i),-20}");
+                            Console.Write($"{reader.GetValue(i),-25}");
                         }
 
                         Console.WriteLine();
@@ -329,7 +382,8 @@ namespace VarbergHighschool_FannyBillefält
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine();
+                Console.WriteLine($"FELMEDDELANDE: {ex.Message}");
             }
         }
 

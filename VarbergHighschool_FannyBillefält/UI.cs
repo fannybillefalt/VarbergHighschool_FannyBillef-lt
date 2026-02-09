@@ -10,55 +10,61 @@ namespace VarbergHighschool_FannyBillefält
     {
         internal static void PrintedWelcomeMenu()
         {
-            Console.WriteLine("Välkommen till Varberg-Highschool!");
-            Console.WriteLine("__________________________________");
+            Console.WriteLine("VÄKOMMEN TILL VARBERG HIGHSCHOOL!");
+            Console.WriteLine(new string('═', 50));
             Console.WriteLine();
             Console.WriteLine("1. Information om personalen");
             Console.WriteLine("2. Information om elever");
             Console.WriteLine("3. Ekonomi");
             Console.WriteLine("4. Kurser");
             Console.WriteLine("5. Avsluta");
+            Console.WriteLine();
             Console.Write("Ditt val: ");
         }
 
         internal static void Printed_StaffMenu()
         {
-            Console.WriteLine("Personal vyn");
-            Console.WriteLine("__________________________________");
+            Console.WriteLine("PERSONALVY");
+            Console.WriteLine(new string('═', 50));
             Console.WriteLine();
             Console.WriteLine("1. Antal lärare per avdelning");
             Console.WriteLine("2. Översikt all personal");
             Console.WriteLine("3. Addera ny personal");
             Console.WriteLine("4. Återgå till huvudmenyn");
+            Console.WriteLine();
             Console.Write("Ditt val: ");
         }
 
         internal static void Printed_StudentMenu()
         {
-            Console.WriteLine("Elev vyn");
-            Console.WriteLine("__________________________________");
+            Console.WriteLine("ELEVVY");
+            Console.WriteLine(new string('═', 50));
             Console.WriteLine();
             Console.WriteLine("1. Översikt alla elever");
             Console.WriteLine("2. Information om enskild elev");
             Console.WriteLine("3. Översikt betyg");
             Console.WriteLine("4. Sätta betyg");
             Console.WriteLine("5. Återgå till huvudmenyn");
+            Console.WriteLine();
             Console.Write("Ditt val: ");
         }
 
         internal static void Printed_EconomyMenu()
         {
-            Console.WriteLine("Ekonomi vyn");
-            Console.WriteLine("__________________________________");
+            Console.WriteLine("EKONOMIVY");
+            Console.WriteLine(new string('═', 50));
             Console.WriteLine();
             Console.WriteLine("1. Lön per avdelning");
             Console.WriteLine("2. Medellön");
             Console.WriteLine("3. Återgå till huvudmenyn");
+            Console.WriteLine();
             Console.WriteLine("Ditt val: ");
         }
 
         internal static void ReturnToPreviousMenu()
         {
+            Console.WriteLine();
+            Console.WriteLine(new string('─', 50));
             Console.WriteLine("\nTryck Enter för att återgå till föregående meny...");
             Console.ReadLine();
             Console.Clear();
@@ -66,6 +72,8 @@ namespace VarbergHighschool_FannyBillefält
 
         internal static void ReturnToHeadMenu()
         {
+            Console.WriteLine();
+            Console.WriteLine(new string('─', 50));
             Console.WriteLine("Tryck Enter för att återgå till huvudmenyn...");
             Console.ReadLine();
             Console.Clear();

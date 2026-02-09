@@ -48,8 +48,6 @@ namespace VarbergHighschool_FannyBillefält
                         Console.Clear();
                         break;
                 }
-
-
             }
         }
 
@@ -105,22 +103,25 @@ namespace VarbergHighschool_FannyBillefält
                 switch (input)
                 {
                     case "1":
+                        Console.Clear();
                         dbManager.GetInformationAllStudents();
                         UI.ReturnToHeadMenu();
                         keepRunning = false;
-
                         break;
                     case "2":
+                        Console.Clear();
                         GetIdForStudent();
                         UI.ReturnToHeadMenu();
                         keepRunning = false;
                         break;
                     case "3":
+                        Console.Clear();
                         GetIdForGrades();
                         UI.ReturnToHeadMenu();
                         keepRunning = false;
                         break;
                     case "4":
+                        Console.Clear();
                         GradeStudent();
                         UI.ReturnToPreviousMenu();
                         break;
@@ -171,6 +172,7 @@ namespace VarbergHighschool_FannyBillefält
         internal void SaveInfoAddStaff()
         {//just nu kan alla departments väljas och efter det bör bara den positionen kopplad till den avdelning komma upp för att inte kunna blanda avdelning och position fritt, som man just nu kan.
 
+            Console.Clear();
             DbManager.AllDepartments();
             Console.WriteLine();
             Console.Write("Vilken avdelning ska personalen läggas in i? Ange ID: ");
@@ -226,13 +228,12 @@ namespace VarbergHighschool_FannyBillefält
 
         internal void GetIdForGrades()
         {
-            Console.WriteLine("VISAR ALLA ELEVER – VÄLJ ELEVID FÖR INFORMATION");
-            Console.WriteLine(new string('═', 50));
-
+            Console.Clear();
+            
             DbManager.GetAllStudents();
 
             Console.WriteLine();
-            Console.Write("Vilken elev vill du betyginformation om? Ange ID: ");
+            Console.Write("Vilken elev vill du ha betygsinformation om? Ange ID: ");
             if (!int.TryParse(Console.ReadLine(), out int studentId))
             {
                 Console.WriteLine("Ogiltigt ID. Tryck Enter för att fortsätta...");
@@ -245,9 +246,7 @@ namespace VarbergHighschool_FannyBillefält
 
         internal void GetIdForStudent()
         {
-            Console.WriteLine("📘 VISAR ALLA ELEVER – VÄLJ ELEVID FÖR INFORMATION");
-            Console.WriteLine(new string('═', 55));
-
+            Console.Clear();
             DbManager.GetAllStudents();
 
             Console.WriteLine();
